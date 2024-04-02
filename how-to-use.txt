@@ -1,54 +1,54 @@
-01--- 作業リポジトリ直下に、「.github」という名前のフォルダを作る
-02--- 「.github」内に「workflows」という名前のフォルダを作る
-03--- workflowsフォルダ内に.ymlファイルを作る
-
-作業リポジトリフォルダ
-  |_.github
-        |
-        |_workflows
-              |
-              |_FTP-Deploy.yml
-
-
-04--- .ymlファイル内に以下を記述する
-※ブランチがmasterの場合はmainをmasterに変更する
-※なお、このリポジトリ内にある.gihub/workflows/ftp-deploy.ymlファイルのひな型をフォルダごとコピーして使うと効率的
-------------------------------------------------------------
-
-name: FTP-Deploy
-
-on:
-  push:
-    branches: main
-
-jobs:
-  deploy:
-    name: 🚀 Deploy website every commit
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v4
-
-      - name: 📂 Sync files
-        uses: SamKirkland/FTP-Deploy-Action@4.1.0
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-
-
-05--- githubのリポジトリ画面上の「setting」をクリック
-06--- 画面左側の「Actions」から「secrets and variables」をクリックする
-07--- Repository secretsの「New repository secret」をクリックする
-08--- Name *の項目欄にFTP_SERVER、Secretの項目欄にサーバー名を入れる
-      Add secretをクリック
-      同様の手順を以下のものに関してもやる。（FTP_SERVERなどは、ymlファイルで指定した${{secrets.～ここ～}}）の部分の文字と一致させる
-      FTP_USERNAMEはftpユーザー名、
-      FTP_PASSWORDはパスワード
-      FTP_SERVER_DIRは絶対パスかサーバルートからのルート相対パス名
-      （例：/public_html/や/htdocs/など)を入れる
-      ※仕様上、最後に/を入れないとエラーする
-    
-09--- 成功していれば、github画面上部のActionsボタンからアクションの履歴が表示されるようになる
-10--- 試しにgit pushでgithubにデータが送られた後、サーバーにも保存されるかを確認
+## 01--- 作業リポジトリ直下に、「.github」という名前のフォルダを作る
+## 02--- 「.github」内に「workflows」という名前のフォルダを作る
+## 03--- workflowsフォルダ内に.ymlファイルを作る
+## 
+## 作業リポジトリフォルダ
+##   |_.github
+##         |
+##         |_workflows
+##               |
+##               |_FTP-Deploy.yml
+## 
+## 
+## 04--- .ymlファイル内に以下を記述する
+## ※ブランチがmasterの場合はmainをmasterに変更する
+## ※なお、このリポジトリ内にある.gihub/workflows/ftp-deploy.ymlファイルのひな型をフォルダごとコピーして使うと効率的
+## ------------------------------------------------------------
+## 
+## name: FTP-Deploy
+## 
+## on:
+##   push:
+##     branches: main
+## 
+## jobs:
+##   deploy:
+##     name: 🚀 Deploy website every commit
+##     runs-on: ubuntu-latest
+##     steps:
+##       - name: 🚚 Get latest code
+##         uses: actions/checkout@v4
+## 
+##       - name: 📂 Sync files
+##         uses: SamKirkland/FTP-Deploy-Action@4.1.0
+##         with:
+##           server: ${{ secrets.FTP_SERVER }}
+##           username: ${{ secrets.FTP_USERNAME }}
+##           password: ${{ secrets.FTP_PASSWORD }}
+##           server-dir: ${{ secrets.FTP_SERVER_DIR }}
+## 
+## 
+## 05--- githubのリポジトリ画面上の「setting」をクリック
+## 06--- 画面左側の「Actions」から「secrets and variables」をクリックする
+## 07--- Repository secretsの「New repository secret」をクリックする
+## 08--- Name *の項目欄にFTP_SERVER、Secretの項目欄にサーバー名を入れる
+##       Add secretをクリック
+##       同様の手順を以下のものに関してもやる。（FTP_SERVERなどは、ymlファイルで指定した${{secrets.～ここ～}}）の部分の文字と一致させる
+##       FTP_USERNAMEはftpユーザー名、
+##       FTP_PASSWORDはパスワード
+##       FTP_SERVER_DIRは絶対パスかサーバルートからのルート相対パス名
+##       （例：/public_html/や/htdocs/など)を入れる
+##       ※仕様上、最後に/を入れないとエラーする
+##     
+## 09--- 成功していれば、github画面上部のActionsボタンからアクションの履歴が表示されるようになる
+## 10--- 試しにgit pushでgithubにデータが送られた後、サーバーにも保存されるかを確認
